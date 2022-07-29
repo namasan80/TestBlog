@@ -2,13 +2,13 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
-        <title>今日の日記</title>
+        <title>{{Auth::user()->name}}のぶろぐ</title>
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
     </head>
     <body>
-        <h1>今日の日記</h1>
-        [<a href='/posts/create'>create</a>]
+        @extends('layouts.app')　　　　　　　　　　　　　　　　　　
+        @section('content')
         <div class='posts'>
             @foreach ($posts as $post)
                 <div class='post'>
@@ -21,12 +21,23 @@
                 <form action="/posts/{{ $post->id }}" id="form_{{ $post->id }}" method="post" style="display:inline">
                     @csrf
                     @method('DELETE')
-                    <button type="submit">delete</button> 
+                    <button type="submit">削除</button> 
                 </form>
             @endforeach
         </div>
         <div class='paginate'>
             {{ $posts->links() }}
         </div>
+        <br><a href='/posts/create'>新しいページを作成</a>
+        <div>
+            @foreach($questions as $question)
+                <div>
+                    <a href="https://teratail.com/questions/{{ $question['id'] }}">
+                        {{ $question['title'] }}
+                    </a>
+                </div>
+            @endforeach
+        </div>
+        @endsection
     </body>
 </html>
